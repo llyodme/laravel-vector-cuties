@@ -19,89 +19,41 @@
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
-                        <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>Age</th>
+                            <th>Patient ID</th>
+                            <th>First name</th>
+                            <th>Middle name</th>
+                            <th>Last name</th> 
                             <th>Birth Date</th>
                             <th>Gender</th>
+                            <th>Address</th>
+                        
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>Age</th>
+                            <th>Patient ID</th>
+                            <th>First name</th>
+                            <th>Middle name</th>
+                            <th>Last name</th>
                             <th>Birth Date</th>
                             <th>Gender</th>
+                            <th>Address</th>
+                           
                         </tr>
                     </tfoot>
                     <tbody>
+                        @foreach($patient as $patients)
                         <tr>
-                            <td>Tiger Nixon</td>
-                         
-                            <td>Edinburgh</td>
-                            <td>61</td>
-                            <td>1989/04/25</td>
-                           <td>Male</td>
+                            <td>{{$patients->pat_id}}</td>
+                            <td>{{$patients->pat_fname}}</td>
+                            <td>{{$patients->pat_mname}}</td>
+                            <td>{{$patients->pat_lname}}</td>
+                            <td>{{$patients->pat_birth}}</td>
+                            <td>{{$patients->pat_gender}}</td>
+                            <td>{{$patients->pat_address}}</td>
                         </tr>
-                        <tr>
-                            <td>Garrett Winters</td>
-        
-                            <td>Tokyo</td>
-                            <td>63</td>
-                            <td>1989/07/25</td>
-                            <td>Female</td>
-                        </tr>
-                        <tr>
-                            <td>Ashton Cox</td>
-                       
-                            <td>San Francisco</td>
-                            <td>66</td>
-                            <td>1989/01/12</td>
-                            <td>Female</td>
-                        </tr>
-                        <tr>
-                            <td>Cedric Kelly</td>
-                            <td>Edinburgh</td>
-                            <td>22</td>
-                            <td>1989/03/29</td>
-                            <td>Male</td>
-                        </tr>
-                        <tr>
-                            <td>Airi Satou</td>
-
-                            <td>Tokyo</td>
-                            <td>33</td>
-                            <td>1989/11/28</td>
-                            <td>Female</td>
-                        </tr>
-                        <tr>
-                            <td>Brielle Williamson</td>
-  
-                            <td>New York</td>
-                            <td>61</td>
-                            <td>1989/12/02</td>
-                            <td>Male</td>
-                        </tr>
-                        <tr>
-                            <td>Herrod Chandler</td>
-
-                            <td>San Francisco</td>
-                            <td>59</td>
-                            <td>1989/08/06</td>
-                            <td>Male</td>
-                        </tr>
-                        <tr>
-                            <td>Rhona Davidson</td>
-                
-                            <td>Tokyo</td>
-                            <td>55</td>
-                            <td>1989/10/14</td>
-                            <td>Female</td>
-                        </tr>
-                        
+                        @endforeach
                     </tbody>
                 </table>
             </div>

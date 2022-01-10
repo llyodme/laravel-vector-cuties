@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Patient;
 
 class TableController extends Controller
 {
@@ -13,7 +14,8 @@ class TableController extends Controller
      */
     public function index()
     {
-        return view ('pages.table');
+        $patient = Patient::all();
+        return view('pages.table', compact('patient'));
     }
 
     /**

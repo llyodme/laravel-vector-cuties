@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Patient;
 
 class PatientController extends Controller
 {
@@ -12,8 +13,9 @@ class PatientController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('pages.patient');
+    {   
+        $patient = Patient::all();
+        return view('pages.patient', compact('patient'));
     }
 
     /**
@@ -34,7 +36,18 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $storeData = $request->validate([
+            'pat_fname' => 'required',
+            'pat_mname' => 'required',
+            'pat_lname' => 'required',
+            'pat_gender' => 'required',
+            'pat_address' => 'required',
+            'pat_birth' => 'required',
+            'pat_description' => 'required'
+        ]);
+        $patient = Patient::create($storeData);
+
+        return redirect('/patients')->with('success', 'Patient created!');
     }
 
     /**
@@ -56,7 +69,8 @@ class PatientController extends Controller
      */
     public function edit($id)
     {
-        //
+        $patient = Patient::findOrFail($id);
+        return view('pages.edit-patient', compact('patient'));
     }
 
     /**
@@ -66,9 +80,21 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Patient $patient)
     {
-        //
+        $request->validate([
+            'pat_fname' => 'required',
+            'pat_mname' => 'required',
+            'pat_lname' => 'required',
+            'pat_gender' => 'required',
+            'pat_address' => 'required',
+            'pat_birth' => 'required',
+            'pat_description' => 'required'
+        ]);
+        $patient->update($request->all());
+        
+        return redirect('/patients')->with('success', 'Patient updated');
+
     }
 
     /**
@@ -77,8 +103,10 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Patient $patient)
     {
-        //
+        $patient->delete();
+
+        return redirect('/patients')->with('success', 'Patient deleted successfully');
     }
 }

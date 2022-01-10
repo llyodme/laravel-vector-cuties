@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Inventory;
 
 class InventoryController extends Controller
 {
@@ -13,7 +14,9 @@ class InventoryController extends Controller
      */
     public function index()
     {
-        return view ('pages.inventory');
+        
+        $inventory = Inventory::all();
+        return view('pages.inventory', compact('inventory'));
     }
 
     /**
@@ -35,7 +38,16 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $storeData = $request->validate([
+            'inv_itemname' => 'required',
+            'inv_date' => 'required',
+            'inv_quantity' => 'required',
+            'inv_exp_date' => 'required',
+            'inv_description' => 'required'
+        ]);
+        $inventory = Inventory::create($storeData);
+
+        return redirect('/inventory')->with('success', 'Inventory created!');
     }
 
     /**
@@ -57,7 +69,8 @@ class InventoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $inventory = Inventory::findOrFail($id);
+        return view('pages.edit-inventory', compact('inventory'));
     }
 
     /**
@@ -67,9 +80,18 @@ class InventoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Inventory $inventory)
     {
-        //
+        $request->validate([
+            'inv_itemname' => 'required',
+            'inv_date' => 'required',
+            'inv_quantity' => 'required',
+            'inv_exp_date' => 'required',
+            'inv_description' => 'required'
+        ]);
+        $inventory->update($request->all());
+        
+        return redirect('/inventory')->with('success', 'Inventory updated');
     }
 
     /**
@@ -78,8 +100,10 @@ class InventoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Inventory $inventory)
     {
-        //
+        $inventory->delete();
+
+        return redirect('/inventory')->with('success', 'Inventory deleted successfully');
     }
 }

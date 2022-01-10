@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Appointment;
 
 class AppointmentController extends Controller
 {
@@ -13,7 +14,8 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        return view ('pages.appointment');
+        $app = Appointment::all();
+        return view('pages.appointment', compact('app'));
     }
 
     /**
@@ -34,7 +36,18 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $storeData = $request->validate([
+            'app_name' => 'required',
+            'app_date' => 'required',
+            'app_address' => 'required',
+            'app_contact' => 'required',
+            'app_email' => 'required',
+            'app_status' => 'required',
+            'app_services' => 'required'
+        ]);
+        $app = Appointment::create($storeData);
+
+        return redirect('/appointments')->with('success', 'Appointment created!');
     }
 
     /**
@@ -56,7 +69,8 @@ class AppointmentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $app = Appointment::findOrFail($id);
+        return view('pages.edit-appointment', compact('app'));
     }
 
     /**
@@ -66,9 +80,20 @@ class AppointmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Appointment $app)
     {
-        //
+        $request->validate([
+            'app_name' => 'required',
+            'app_date' => 'required',
+            'app_address' => 'required',
+            'app_contact' => 'required',
+            'app_email' => 'required',
+            'app_status' => 'required',
+            'app_services' => 'required'
+        ]);
+        $app->update($request->all());
+        
+        return redirect('/appointments')->with('success', 'Appointment updated');
     }
 
     /**
@@ -79,6 +104,9 @@ class AppointmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $app = Appointment::findOrFail($id);
+        $app->delete();
+
+        return redirect('/appointments')->with('success', 'Appointment deleted successfully');
     }
 }

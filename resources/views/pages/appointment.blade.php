@@ -20,47 +20,61 @@
                 </div>
             </div>
         </div>
-        
+        @if(session()->get('success'))
+        <div class="alert alert-success">
+          {{ session()->get('success') }}  
+        </div>
+      @endif
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>No #</th>
-                            <th>Patient Name</th>
+                            <th>Name</th>
                             <th>Appointment Date</th>
-                            <th>Patient Email</th>
-                            <th>Services</th>
+                            <th>Address</th>
+                            <th>Contact #</th>
+                            <th>Email</th>
                             <th>Status</th>
+                            <th>Services</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>No #</th>
-                            <th>Patient Name</th>
+                            <th>Name</th>
                             <th>Appointment Date</th>
-                            <th>Patient Email</th>
-                            <th>Services</th>
+                            <th>Address</th>
+                            <th>Contact #</th>
+                            <th>Email</th>
                             <th>Status</th>
+                            <th>Services</th>
+                            <th>Action</th>
                         </tr>
                     </tfoot>
                     <tbody>
+                        @foreach($app as $apps)
                         <tr>
-                            <td>41</td>
-                            <td>Tiger Nixon</td>
-                            <td>2011/04/25</td>
-                            <td>Edinburgh@gmail.com</td>
-                            <td>Tooth Extraction</td>
-                            <td>Pending</td>
+                            <td>{{$apps->app_id}}</td>
+                            <td>{{$apps->app_name}}</td>
+                            <td>{{$apps->app_date}}</td>
+                            <td>{{$apps->app_address}}</td>
+                            <td>{{$apps->app_contact}}</td>
+                            <td>{{$apps->app_email}}</td>
+                            <td>{{$apps->app_status}}</td>
+                            <td>{{$apps->app_services}}</td>
+                            <td class="text-center">
+                                <a href="{{ route('appointments.edit', $apps->app_id)}}" class="btn btn-success btn-sm">Edit</a>
+                                <form action="{{ route('appointments.destroy', $apps->app_id)}}" method="post" style="display: inline-block">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                                </form>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>63</td>
-                            <td>Garrett Winters</td>
-                            <td>2011/07/25</td>
-                            <td>Tokyo@gmail.com</td>
-                            <td>Meeting</td>
-                            <td>Pending</td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
